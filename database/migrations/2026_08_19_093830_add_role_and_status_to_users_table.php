@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
@@ -16,14 +17,38 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone', 14)->nullable();
-            $table->string('role')->default('admin');
+            // $table->string('role')->default('admin');
             $table->string('status', 30)->default('active');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();
 
-            $table->index('role');
+            // $table->index('role');
             $table->index('status');
+        });
+
+        Schema::create('roles', function (Blueprint $table) {
+            $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
+
+            $table->string('name')->unique();
+
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+        });
+
+        Schema::create('role_user', function (Blueprint $table) {
+            $table->foreignUuid('user_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
+
+            $table->foreignUuid('role_id')
+                ->constrained('roles')
+                ->cascadeOnDelete();
+
+            $table->primary([
+                'user_id',
+                'role_id',
+            ]);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -49,15 +74,10 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropIndex(['role']);
-            $table->dropIndex(['status']);
-
-            $table->dropColumn(['role', 'status']);
-        });
-
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('roles');
         Schema::dropIfExists('users');
     }
 };
