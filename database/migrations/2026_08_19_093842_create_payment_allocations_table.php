@@ -13,7 +13,7 @@ return new class extends Migration
 
             $table->foreignUuid('payment_id')
                 ->constrained('payments')
-                ->cascadeOnDelete()
+                ->noActionOnDelete()
                 ->cascadeOnUpdate();
 
             /**

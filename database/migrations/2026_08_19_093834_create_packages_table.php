@@ -15,6 +15,8 @@ return new class extends Migration
 
             $table->string('category', 100);
 
+            $table->longText('description')->nullable();
+
             $table->unsignedSmallInteger('meeting_quota');
 
             /**

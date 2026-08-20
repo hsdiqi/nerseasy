@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class PaymentSeeder extends Seeder
 {
@@ -13,8 +14,8 @@ class PaymentSeeder extends Seeder
             ->where('email', 'admin@bimbelqueen.test')
             ->value('id');
 
-        $tutorId = DB::table('Users')
-            ->where('name', 'Tentor Hasbi')
+        $tutorId = DB::table('users')
+            ->where('name', 'Hasbi')
             ->value('id');
 
         $studentPackage = DB::table('student_packages')
@@ -51,7 +52,11 @@ class PaymentSeeder extends Seeder
         if ($existingPayment) {
             $paymentId = $existingPayment->id;
         } else {
-            $paymentId = DB::table('payments')->insertGetId([
+            $paymentId = (string) Str::uuid();
+
+            DB::table('payments')->insert([
+                'id' => $paymentId,
+
                 'student_package_id' => $studentPackage->id,
                 'financial_period_id' => $periodId,
                 'recorded_by' => $adminId,
@@ -66,7 +71,7 @@ class PaymentSeeder extends Seeder
         }
 
         /**
-         * Hapus allocation lama supaya seeder tetap idempotent.
+         * Hapus allocation lama supaya seeder idempotent.
          */
         DB::table('payment_allocations')
             ->where('payment_id', $paymentId)

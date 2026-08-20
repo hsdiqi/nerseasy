@@ -41,7 +41,7 @@ return new class extends Migration
              * refunded
              */
             $table->string('status', 30)
-                ->default('paid');
+                ->default('pending');
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

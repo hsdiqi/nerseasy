@@ -13,7 +13,7 @@ return new class extends Migration
 
             $table->foreignUuid('student_package_id')
                 ->constrained('student_packages')
-                ->cascadeOnDelete()
+                ->restrictOnDelete()
                 ->cascadeOnUpdate();
 
             $table->foreignUuid('tutor_id')
@@ -50,6 +50,8 @@ return new class extends Migration
              */
             $table->string('status', 30)
                 ->default('requested');
+
+            $table->longText('description')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();

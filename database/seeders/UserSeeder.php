@@ -33,5 +33,17 @@ class UserSeeder extends Seeder
                 'status' => 'active',
             ]
         );
+
+        User::updateOrCreate(
+            [
+                'email'=> 'tentorhasbi@nerseasy.com',
+            ],
+            [
+                'name' => 'Hasbi',
+                'password' => Hash::make('password'),
+                'role'=> 'tentor',
+                'status'=> 'active',
+            ],
+        );
     }
 }

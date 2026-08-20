@@ -11,15 +11,12 @@ return new class extends Migration {
             $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
 
             $table->string('name', 150);
-            $table->string('phone', 30)
-                ->nullable();
-            $table->string('email');
-            $table->string('campus_name');
-            $table->string('campus_type');
-            $table->string('status', 30)
-                ->default('active');
-            $table->date('registered_at')
-                ->nullable();
+            $table->string('phone', 30)->nullable();
+            $table->string('email')->nullable();
+            $table->string('campus_name')->nullable();
+            $table->string('campus_type')->nullable();
+            $table->string('status', 30)->default('active');
+            $table->date('registered_at')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
             $table->softDeletes();

@@ -15,9 +15,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone', 14)
-                ->nullable();
-            $table->string('role', 50)->default('admin');
+            $table->string('phone', 14)->nullable();
+            $table->string('role')->default('admin');
             $table->string('status', 30)->default('active');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
